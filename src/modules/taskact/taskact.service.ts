@@ -1,4 +1,6 @@
+import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
+import { Queue } from 'bull';
 import { Schema as MongooseSchema } from 'mongoose';
 import { GetQueryDto } from 'src/dto/getQueryDto';
 
@@ -9,7 +11,8 @@ import { UpdateTaskactDto } from './dto/updateTaskact.dto';
 
 @Injectable()
 export class TaskactService {
-    constructor(private taskactRepository: TaskactRepository, private readonly userService: UserService) {}
+    constructor(private taskactRepository: TaskactRepository, private readonly userService: UserService,
+        @InjectQueue('taskactqueue') private readonly taskactQueue: Queue,) {}
 
     async createTaskact(createTaskactDto: CreateTaskactDto) {
         return await this.taskactRepository.createTaskact(createTaskactDto);
@@ -17,6 +20,10 @@ export class TaskactService {
 
     async getTaskactById(taskactId: MongooseSchema.Types.ObjectId) {
         return await this.taskactRepository.getTaskactById(taskactId);
+    }
+
+    async deleteTaskactById(taskactId: MongooseSchema.Types.ObjectId) {
+        return await this.taskactRepository.deleteTaskactById(taskactId);
     }
 
     async getTaskacts(getQueryDto: GetQueryDto) {

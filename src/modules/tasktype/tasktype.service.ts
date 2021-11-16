@@ -6,14 +6,19 @@ import { TasktypeRepository } from '../../repositories/tasktype.repository';
 import { UserService } from '../user/user.service';
 import { CreateTasktypeDto } from './dto/createTasktype.dto';
 
+
 @Injectable()
 export class TasktypeService {
     constructor(private readonly tasktypeRepository: TasktypeRepository, private readonly userService: UserService) {}
 
     async createTasktype(createTasktypeDto: CreateTasktypeDto) {
-        const getUser: any = await this.userService.getUserById(createTasktypeDto.userId);
+        console.log(">>" + JSON.stringify(createTasktypeDto))
+        var mongoose = require('mongoose');
 
-        if (getUser.role === 'ADMIN') {
+        var objUserId = mongoose.Types.ObjectId("" + createTasktypeDto.userId)
+        const getUser: any = await this.userService.getUserById(objUserId);
+
+        if (getUser.role === 'ADMIN') {            
             return await this.tasktypeRepository.createTasktype(createTasktypeDto);
         } else {
             throw new UnauthorizedException('Incorrect Role');

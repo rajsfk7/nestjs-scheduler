@@ -108,4 +108,16 @@ export class TaskactRepository {
             throw new InternalServerErrorException(error);
         }
     }
+
+    async deleteTaskactById(id: MongooseSchema.Types.ObjectId) {
+        try {
+            const taskact = await this.taskactModel.findById(id).remove();
+
+            return taskact;
+        } catch (error) {
+            throw new InternalServerErrorException(error);
+        }
+    }
+
+    
 }

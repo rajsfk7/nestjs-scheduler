@@ -47,14 +47,14 @@ export class TasktypeRepository {
             if (limit === 0) {
                 tasktypes = await this.tasktypeModel
                     .find()
-                    .populate('tasktype')
+                    .populate('tasktypes')
                     .skip(from)
                     .sort({ createdAt: -1 })
                     .exec();
             } else {
                 tasktypes = await this.tasktypeModel
                     .find()
-                    .populate('tasktype')
+                    .populate('tasktypes')
                     .skip(from)
                     .limit(limit)
                     .sort({ createdAt: -1 })

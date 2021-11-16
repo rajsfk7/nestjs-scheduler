@@ -8,6 +8,14 @@ export class CreateTaskactDto {
     userId: MongooseSchema.Types.ObjectId;
     @IsOptional()
     id: MongooseSchema.Types.ObjectId;
+    interval: {
+        second: Number,
+        minute: Number,
+        hour: Number,
+        day: Number,
+        month: Number,
+        week: Number
+    };
     @IsOptional()
     status: string;
     @IsOptional()
